@@ -9,7 +9,6 @@ import com.dylr.recorder.core.RecordPhase
 import com.dylr.recorder.core.RecordState
 import com.dylr.recorder.core.Recorder
 import kotlinx.coroutines.CancellationException
-import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -48,10 +47,8 @@ class DefaultRecorder(context: Context) : Recorder {
     override val history: StateFlow<List<RecordItem>> = _history
 
     /** 兜底：任何漏网的协程异常都收敛成 ERROR 状态，绝不让进程崩。 */
-    private val crashGuard = object : CoroutineExceptionHandler {
-        override fun handleException(context: CoroutineContext, exception: Throwable) {
-            _state.update { current -> current.copy(phase = RecordPhase.ERROR, message = describe(exception)) }
-        }
+    private val crashGuard = CoroutineExceptionHandler { _, exception ->
+        _state.update { current -> current.copy(phase = RecordPhase.ERROR, message = describe(exception)) }
     }
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO + crashGuard)
