@@ -19,7 +19,6 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # 删掉了 Generate Gradle wrapper 这一步，因为项目自带
 
       - name: Make gradlew executable
         run: chmod +x gradlew
