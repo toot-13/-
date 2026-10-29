@@ -9,7 +9,7 @@ import com.dylr.recorder.core.RecordPhase
 import com.dylr.recorder.core.RecordState
 import com.dylr.recorder.core.Recorder
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineContext
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
